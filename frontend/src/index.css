@@ -39,6 +39,10 @@ body {
   justify-content: space-between;
 }
 
+#workoutList {
+  list-style: none;
+}
+
 #myWorkouts {
   font-family: var(--font-family);
   font-size: 23px;
