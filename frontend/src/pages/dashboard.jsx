@@ -17,6 +17,14 @@ export default function Dashboard() {
             { reps: 6, weight: 130 },
           ],
         },
+        {
+          id: 2,
+          name: 'Leg Extension',
+          sets: [
+            { reps: 5, weight: 120 },
+            { reps: 6, weight: 130 },
+          ],
+        }
       ],
     },
     {
@@ -44,6 +52,8 @@ export default function Dashboard() {
         </nav>
       </header>
 
+      <div className="dashboardContent">
+
       <section className="sectionWorkouts">
         <h1 id="myWorkouts">My Workouts</h1>
 
@@ -63,18 +73,27 @@ export default function Dashboard() {
               </li>
             ))}
           </ul>
+        </div>
 
-          {selectedWorkout && (
+        <div className="workoutButton">
+          <button id="createWorkout">Create New</button>
+          <button id="deleteWorkout">Delete</button>
+        </div>
+      </section>
+
+        {selectedWorkout && (
             <div className="selectedWorkoutDiv">
-              <h2>{selectedWorkout.name}</h2>
+                <header className="dashHeader2">
+                    <h2 className="selectedWorkoutName">{selectedWorkout.name}</h2>
+                </header>
 
               {selectedWorkout.exercises?.map((exercise) => (
-                <div key={exercise.id}>
-                  <h3>{exercise.name}</h3>
+                <div className='specificWorkoutDiv' key={exercise.id}>
+                  <h3 className="selectedWorkoutExercise">{exercise.name}</h3>
 
                   {exercise.sets.map((set, index) => (
                     <div className="selectedDiv" key={index}>
-                      <span>Set {index + 1}</span>
+                      <span className='selectedSetNum'>Set {index + 1}</span>
                       <span className="selectedWeight">
                         {set.weight} lbs
                       </span>
@@ -87,13 +106,7 @@ export default function Dashboard() {
               ))}
             </div>
           )}
-        </div>
-
-        <div className="workoutButton">
-          <button id="createWorkout">Create New</button>
-          <button id="deleteWorkout">Delete</button>
-        </div>
-      </section>
+          </div>
     </>
   );
 } 
