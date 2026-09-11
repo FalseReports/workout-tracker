@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 export default function Dashboard() {
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
+  const [showForm, updateShowForm] = useState(false);
 
   const workouts = [
     {
@@ -76,10 +77,16 @@ export default function Dashboard() {
         </div>
 
         <div className="workoutButton">
-          <button id="createWorkout">Create New</button>
+          <button id="createWorkout" onClick={() => updateShowForm(true)}>Create New</button> 
           <button id="deleteWorkout">Delete</button>
         </div>
       </section>
+
+        {showForm && (
+          <div className="createFormDiv"> 
+            <h2>Title Name</h2>
+          </div>
+        )}
 
         {selectedWorkout && (
             <div className="selectedWorkoutDiv">
