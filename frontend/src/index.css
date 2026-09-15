@@ -109,6 +109,10 @@ body {
     margin-bottom: 5px;
 }
 
+#createWorkoutHeader {
+  text-align: center;
+}
+
 #workoutList {
   list-style: none;
 }

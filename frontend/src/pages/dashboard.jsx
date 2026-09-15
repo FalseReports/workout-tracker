@@ -4,6 +4,17 @@ import { useState } from 'react';
 export default function Dashboard() {
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
   const [showForm, updateShowForm] = useState(false);
+  const [rows, setRows] = useState([
+    {
+      exerciseName: '',
+      sets: [
+        {
+          reps: '',
+          weight: '',
+        }
+      ],
+    }
+  ])
 
   const workouts = [
     {
@@ -84,7 +95,38 @@ export default function Dashboard() {
 
         {showForm && (
           <div className="createFormDiv"> 
-            <h2>Title Name</h2>
+              <header>
+                <h2 id="createWorkoutHeader">Create New Workout</h2>
+              </header>
+              <input type='text' className='setWorkoutName' placeholder='Workout Name'></input>
+            {rows.map((row, index) => (
+              <div key={index}>
+                <input type='text' className='setExerciseName' placeholder='Exercise Name'></input>
+                <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
+                <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
+                <button className='addNextExercise' onClick={ () => {
+                  setRows([
+                    ...rows,
+                    {
+                      exerciseName: '',
+                      sets: [
+                        {
+                          reps: '',
+                          weight: '',
+                        }
+                      ]
+                  }
+                ])}
+                }>A</button>
+                <button className='addSet' onClick={() => (
+                  <div className='nextSet'>
+                    <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
+                    <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
+                    <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
+                  </div>
+                )}>Add Set</button>
+              </div> 
+            ))}
           </div>
         )}
 
