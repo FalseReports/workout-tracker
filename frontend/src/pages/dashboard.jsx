@@ -101,30 +101,32 @@ export default function Dashboard() {
               <input type='text' className='setWorkoutName' placeholder='Workout Name'></input>
             {rows.map((row, index) => (
               <div key={index}>
-                <input type='text' className='setExerciseName' placeholder='Exercise Name'></input>
-                <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
-                <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
-                <button className='addNextExercise' onClick={ () => {
-                  setRows([
-                    ...rows,
-                    {
-                      exerciseName: '',
-                      sets: [
-                        {
-                          reps: '',
-                          weight: '',
-                        }
-                      ]
-                  }
-                ])}
-                }>A</button>
-                <button className='addSet' onClick={() => (
-                  <div className='nextSet'>
-                    <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
-                    <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
-                    <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
-                  </div>
-                )}>Add Set</button>
+                {row.sets.map ((set, setIndex) => (
+                    <div className='nextSet' key = {setIndex}>
+                      {setIndex === 0 && (
+                      <input type='text' className='setExerciseName' placeholder='Exercise Name'></input>
+                      )}
+                      <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
+                      <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
+                      <button className='addSetButton'>Add Set</button>
+                      {setIndex === 0 && (
+                        <button className='addNextExercise' onClick={ () => {
+                            setRows([
+                              ...rows,
+                              {
+                                exerciseName: '',
+                                sets: [
+                                  {
+                                    reps: '',
+                                    weight: '',
+                                  }
+                                ]
+                            }
+                          ])}
+                        }>A</button>
+                      )}
+                    </div>
+                ))}
               </div> 
             ))}
           </div>
