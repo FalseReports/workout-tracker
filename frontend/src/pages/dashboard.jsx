@@ -53,6 +53,27 @@ export default function Dashboard() {
     (workout) => workout.id === selectedWorkoutId
   );
 
+      function addSet(exerciseIndex) {
+      setRows((currentRows) =>
+        currentRows.map((currentRow, currentIndex) => {
+          if (currentIndex !== exerciseIndex) {
+            return currentRow;
+          }
+
+          return {
+            ...currentRow,
+            sets: [
+              ...currentRow.sets,
+              {
+                reps: '',
+                weight: '',
+              },
+            ],
+          };
+        })
+      );
+    }
+
   return (
     <>
       <header className="dashHeader">
@@ -99,34 +120,64 @@ export default function Dashboard() {
                 <h2 id="createWorkoutHeader">Create New Workout</h2>
               </header>
               <input type='text' className='setWorkoutName' placeholder='Workout Name'></input>
-            {rows.map((row, index) => (
-              <div key={index}>
-                <input type='text' className='setExerciseName' placeholder='Exercise Name'></input>
-                <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
-                <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
-                <button className='addNextExercise' onClick={ () => {
-                  setRows([
-                    ...rows,
-                    {
-                      exerciseName: '',
-                      sets: [
-                        {
-                          reps: '',
-                          weight: '',
-                        }
-                      ]
-                  }
-                ])}
-                }>A</button>
-                <button className='addSet' onClick={() => (
-                  <div className='nextSet'>
-                    <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
-                    <input type='number' className='setExerciseWeight' placeholder='Weight Amount'></input>
-                    <input type='number' className='setExerciseReps' placeholder='Rep Amount'></input>
-                  </div>
-                )}>Add Set</button>
-              </div> 
-            ))}
+              {rows.map((row, index) => (
+                <div key={index}>
+                  {row.sets.map((set, setIndex) => (
+                    <div className="nextSet" key={setIndex}>
+
+                      {setIndex === 0 && (
+                        <input
+                          type="text"
+                          className="setExerciseName"
+                          placeholder="Exercise Name"
+                        />
+                      )}
+
+                      <input
+                        type="number"
+                        className="setExerciseWeight"
+                        placeholder="Weight Amount"
+                      />
+
+                      <input
+                        type="number"
+                        className="setExerciseReps"
+                        placeholder="Rep Amount"
+                      />
+
+                      <button
+                        className="addSet"
+                        onClick={() => addSet(index)}
+                      >
+                        Add Set
+                      </button>
+
+                      {setIndex === 0 && (
+                        <button
+                          className="addNextExercise"
+                          onClick={() => {
+                            setRows([
+                              ...rows,
+                              {
+                                exerciseName: '',
+                                sets: [
+                                  {
+                                    reps: '',
+                                    weight: '',
+                                  },
+                                ],
+                              },
+                            ]);
+                          }}
+                        >
+                          Add Exercise
+                        </button>
+                      )}
+
+                    </div>
+                  ))}
+                </div>
+              ))}
           </div>
         )}
 
