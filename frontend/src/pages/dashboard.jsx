@@ -53,7 +53,7 @@ export default function Dashboard() {
     (workout) => workout.id === selectedWorkoutId
   );
 
-      function addSet(exerciseIndex) {
+    function addSet(exerciseIndex) {
       setRows((currentRows) =>
         currentRows.map((currentRow, currentIndex) => {
           if (currentIndex !== exerciseIndex) {
