@@ -4,6 +4,7 @@ import { useState } from 'react';
 export default function Dashboard() {
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
   const [showForm, updateShowForm] = useState(false);
+  const [workoutName, setWorkoutName] = useState(``);
   const [rows, setRows] = useState([
     {
       exerciseName: '',
@@ -119,7 +120,10 @@ export default function Dashboard() {
               <header>
                 <h2 id="createWorkoutHeader">Create New Workout</h2>
               </header>
-              <input type='text' className='setWorkoutName' placeholder='Workout Name'></input>
+              <input type='text' className='setWorkoutName' placeholder='Workout Name'
+              onChange={(event) => (
+                setWorkoutName(event.target.value)
+              )}></input>
               <button className = "createWorkoutButton"  onClick={() => {console.log(rows)}}>Create Workout</button>
               {rows.map((row, index) => (
                 <div key={index}>
@@ -177,6 +181,25 @@ export default function Dashboard() {
                         type="number"
                         className="setExerciseReps"
                         placeholder="Rep Amount"
+                        onChange={(event) => (
+                            setRows(
+                              rows.map((row,rowIndex) => {
+                                if(rowIndex === index){
+                                    return{...row,
+                                      sets: row.sets.map((currentSet,currentSetIndex) => {
+                                        if(currentSetIndex === setIndex){
+                                          return{...currentSet,
+                                            reps: event.target.value
+                                          }
+                                        }
+                                      return currentSet
+                                      }
+                                    )}
+                                }
+                                return row;
+                              })
+                            )
+                        )}
                       />
 
                       <button
