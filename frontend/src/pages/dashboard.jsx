@@ -120,6 +120,7 @@ export default function Dashboard() {
                 <h2 id="createWorkoutHeader">Create New Workout</h2>
               </header>
               <input type='text' className='setWorkoutName' placeholder='Workout Name'></input>
+              <button className = "createWorkoutButton"  onClick={() => {console.log(rows)}}>Create Workout</button>
               {rows.map((row, index) => (
                 <div key={index}>
                   {row.sets.map((set, setIndex) => (
@@ -130,13 +131,46 @@ export default function Dashboard() {
                           type="text"
                           className="setExerciseName"
                           placeholder="Exercise Name"
-                        />
+                          onChange={(event)=> {
+                              setRows(
+                                rows.map((row, rowIndex) => {
+                              if (rowIndex === index) {
+                                return {
+                                  ...row,
+                                  exerciseName: event.target.value
+                                };
+                              }
+                          return row;
+                                  })
+                                );
+                              console.log(event.target.value)
+                              }}
+                          />
                       )}
 
                       <input
                         type="number"
                         className="setExerciseWeight"
                         placeholder="Weight Amount"
+                        onChange={(event) => (
+                          setRows(
+                            rows.map((row,rowIndex) => {
+                              if (rowIndex === index){
+                                return {...row,
+                                  sets: row.sets.map((currentSet,currentSetIndex) => {
+                                    if(currentSetIndex === setIndex) {
+                                      return {...currentSet,
+                                        weight: event.target.value
+                                      };
+                                    }
+                                    return currentSet;
+                                  })
+                                }
+                              }
+                                return row;
+                        })
+                          )
+                        )}
                       />
 
                       <input
