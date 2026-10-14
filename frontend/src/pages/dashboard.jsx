@@ -17,38 +17,13 @@ export default function Dashboard() {
     }
   ])
 
-  const workouts = [
-    {
-      id: 1,
-      name: 'Leg Day',
-      exercises: [
-        {
-          id: 1,
-          name: 'Leg Press',
-          sets: [
-            { reps: 5, weight: 120 },
-            { reps: 6, weight: 130 },
-          ],
-        },
-        {
-          id: 2,
-          name: 'Leg Extension',
-          sets: [
-            { reps: 5, weight: 120 },
-            { reps: 6, weight: 130 },
-          ],
-        }
-      ],
-    },
-    {
-      id: 2,
-      name: 'Pull Day',
-    },
-    {
-      id: 3,
-      name: 'Push Day',
-    },
-  ];
+  const [workouts,setWorkouts] = useState([]);
+
+  const newWorkout = {
+    id: crypto.randomUUID(),
+    name: workoutName,
+    exercises: rows
+  };
 
   const selectedWorkout = workouts.find(
     (workout) => workout.id === selectedWorkoutId
@@ -110,7 +85,7 @@ export default function Dashboard() {
         </div>
 
         <div className="workoutButton">
-          <button id="createWorkout" onClick={() => updateShowForm(true)}>Create New</button> 
+          <button id="createWorkout" onClick={() => (updateShowForm(true))}>Create New</button> 
           <button id="deleteWorkout">Delete</button>
         </div>
       </section>
@@ -118,13 +93,21 @@ export default function Dashboard() {
         {showForm && (
           <div className="createFormDiv"> 
               <header>
+                <button className = 'closeWorkoutButton' onClick={() => (updateShowForm(false))}> </button>
                 <h2 id="createWorkoutHeader">Create New Workout</h2>
               </header>
               <input type='text' className='setWorkoutName' placeholder='Workout Name'
               onChange={(event) => (
                 setWorkoutName(event.target.value)
               )}></input>
-              <button className = "createWorkoutButton"  onClick={() => {console.log(rows)}}>Create Workout</button>
+
+              <button className = "createWorkoutButton"  onClick={() => {  
+                setWorkouts((currentWorkout) => [
+                  ...currentWorkout,
+                  newWorkout
+                ]);
+                ;}}>Create Workout</button>
+
               {rows.map((row, index) => (
                 <div key={index}>
                   {row.sets.map((set, setIndex) => (
@@ -246,7 +229,7 @@ export default function Dashboard() {
 
               {selectedWorkout.exercises?.map((exercise) => (
                 <div className='specificWorkoutDiv' key={exercise.id}>
-                  <h3 className="selectedWorkoutExercise">{exercise.name}</h3>
+                  <h3 className="selectedWorkoutExercise">{exercise.exerciseName}</h3>
 
                   {exercise.sets.map((set, index) => (
                     <div className="selectedDiv" key={index}>
