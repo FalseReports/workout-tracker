@@ -85,7 +85,14 @@ export default function Dashboard() {
         </div>
 
         <div className="workoutButton">
-          <button id="createWorkout" onClick={() => (updateShowForm(true))}>Create New</button> 
+          <button id="createWorkout" onClick={() => {
+            if(showForm == true) {
+              updateShowForm(false)
+            } else {
+              updateShowForm(true)
+            }
+          }
+        }>Create New</button> 
           <button id="deleteWorkout">Delete</button>
         </div>
       </section>
@@ -102,10 +109,21 @@ export default function Dashboard() {
               )}></input>
 
               <button className = "createWorkoutButton"  onClick={() => {  
-                setWorkouts((currentWorkout) => [
+
+                const existingWorkoutNames = workouts.map(
+                  (workout) => workout.name
+                  );
+
+                  if(!existingWorkoutNames.includes(newWorkout.name)) {
+                 setWorkouts((currentWorkout) => [
                   ...currentWorkout,
                   newWorkout
-                ]);
+                ])
+              }
+               else {
+                console.log("Error")
+               }
+                
                 ;}}>Create Workout</button>
 
               {rows.map((row, index) => (
