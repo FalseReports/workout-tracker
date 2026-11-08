@@ -4,6 +4,7 @@ import { useState } from 'react';
 export default function Dashboard() {
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
   const [showForm, updateShowForm] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [workoutName, setWorkoutName] = useState(``);
   const [rows, setRows] = useState([
     {
@@ -72,10 +73,18 @@ export default function Dashboard() {
               <li
                 className="workoutList"
                 key={workout.id}
-                onClick={() =>
-                  setSelectedWorkoutId(
-                    selectedWorkoutId === workout.id ? null : workout.id
-                  )
+                onClick={() => {
+
+                    if(deleteMode){
+                    const filteredUsers = workouts.filter(index => index.id !== workout.id)
+
+                    setWorkouts(filteredUsers)
+
+                  }
+                  else{
+                  setSelectedWorkoutId(selectedWorkoutId === workout.id ? null : workout.id)
+                  }
+                }
                 }
               >
                 {workout.name}
@@ -93,7 +102,15 @@ export default function Dashboard() {
             }
           }
         }>Create New</button> 
-          <button id="deleteWorkout">Delete</button>
+          <button id="deleteWorkout" onClick={() => {
+            if(selectedWorkoutId != null){
+              return;
+            }else if(!deleteMode){
+              setDeleteMode(true);
+            } else {
+              setDeleteMode(false);
+            }
+          }}>Delete</button>
         </div>
       </section>
 
@@ -111,10 +128,18 @@ export default function Dashboard() {
               <button className = "createWorkoutButton"  onClick={() => {  
 
                 const existingWorkoutNames = workouts.map(
-                  (workout) => workout.name
+                  (workout) => workout.name.trim()
                   );
 
-                  if(!existingWorkoutNames.includes(newWorkout.name)) {
+                  function checkifEmpty() {
+                    if(newWorkout.name.trim() == "") {
+                        return true
+                    } else { 
+                      return false
+                    }
+                  }
+
+                  if(!existingWorkoutNames.includes(newWorkout.name.trim()) && checkifEmpty() == false) {
                  setWorkouts((currentWorkout) => [
                   ...currentWorkout,
                   newWorkout
