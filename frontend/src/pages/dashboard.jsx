@@ -68,7 +68,7 @@ export default function Dashboard() {
         <h1 id="myWorkouts">My Workouts</h1>
 
         <div className="workoutContent">
-          <ul id="workoutList">
+          <ul id="workoutList" className={deleteMode ? 'deleteMode' : ''}>
             {workouts.map((workout) => (
               <li
                 className="workoutList"
@@ -102,7 +102,7 @@ export default function Dashboard() {
             }
           }
         }>Create New</button> 
-          <button id="deleteWorkout" onClick={() => {
+          <button id="deleteWorkout" aria-pressed={deleteMode} onClick={() => {
             if(selectedWorkoutId != null){
               return;
             }else if(!deleteMode){
@@ -139,7 +139,18 @@ export default function Dashboard() {
                     }
                   }
 
-                  if(!existingWorkoutNames.includes(newWorkout.name.trim()) && checkifEmpty() == false) {
+                  function checkLowerCase() {
+                    const watdo = (each) => each.name.trim().toLowerCase() === newWorkout.name.trim().toLowerCase()
+
+                    return workouts.some(watdo)
+                  }
+
+                  function checkExerciseEmpty() {
+                    const watdo = (each) => each.exerciseName.trim() === "";
+                  return  newWorkout.exercises.some(watdo)
+                  }
+
+                  if(!checkLowerCase() && checkifEmpty() == false && !checkExerciseEmpty()) {
                  setWorkouts((currentWorkout) => [
                   ...currentWorkout,
                   newWorkout
